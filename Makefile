@@ -1,12 +1,13 @@
 
 
-TARGET = cmd_lib_demo
+TARGET = cmd_demo
 OBJDIR = obj
 SRCDIR = src
 SOURCES = $(wildcard $(SRCDIR)/*.c)
 HEADERS = $(wildcard $(SRCDIR)/*.h)
 OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 DEPS = $(HEADERS)
+CC = gcc
 
 # main goal
 all: $(TARGET)
@@ -30,3 +31,6 @@ clean:
 # distclean
 distclean: clean
 	rm -f $(TARGET)
+	
+	
+.PHONY: all clean distclean
