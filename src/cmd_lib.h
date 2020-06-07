@@ -6,7 +6,8 @@
 
 typedef enum{
     TYPE_NULL, // No data, for callback cmds  
-    TYPE_UINT // Type uint32_t
+    TYPE_UINT32, // Type uint32_t
+    TYPE_UINT8 // Type uint8_t
 }type_t;
 
 

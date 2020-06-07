@@ -5,7 +5,7 @@ void goodbye_cb(){
     printf("Goodbye");
 }
 
-int myVal = 0;
+uint32_t myVal = 0;
 
 cmd_t cmd_array[] = {
     {
@@ -13,7 +13,7 @@ cmd_t cmd_array[] = {
 //      .read_cb = my_read_cb // optional 
         .cmd_str = "Hello",
         .val = &myVal,
-        .type = TYPE_UINT
+        .type = TYPE_UINT32
     },
     {
         .read_cb = goodbye_cb,

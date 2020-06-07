@@ -18,13 +18,16 @@ void read_cmd(cmd_t * cmd,bool call_cb){
     
     switch(cmd->type)
     {
-        case TYPE_UINT:
+        case TYPE_UINT32:
             sprintf(cmd_out_buffer,"$%s,%i,OK\r\n",cmd->cmd_str,*((uint32_t *)cmd->val));
-            cmd_print(cmd_out_buffer);
+            break;
+        case TYPE_UINT8:
+            sprintf(cmd_out_buffer,"$%s,%i,OK\r\n",cmd->cmd_str,*((uint8_t *)cmd->val));
             break;
         default:
             break;
     }
+    cmd_print(cmd_out_buffer);
 }
 
 
@@ -32,7 +35,8 @@ void write_cmd(cmd_t * cmd, char * data){
     char * end_ptr;
     bool invalid_write = true; 
     // Return if not set
-    if( (cmd->val == NULL) || (cmd->type == TYPE_NULL)){  
+    if( (cmd->val == NULL) || (cmd->type == TYPE_NULL)){ 
+        cmd_print("[ERROR] Invalid Setup"); 
         return; 
     }
     data++; // Increment to value 
@@ -41,14 +45,20 @@ void write_cmd(cmd_t * cmd, char * data){
     
     switch(cmd->type)
     {
-        case TYPE_UINT:
-            if(cmd->val){
-                temp_u_val = (uint32_t)strtol(data,&end_ptr,0);
-                if(*end_ptr == 0){
-                    *((uint32_t *)cmd->val) = temp_u_val;
-                    read_cmd(cmd,false);
-                    invalid_write = false; 
-                }
+        case TYPE_UINT32:
+            temp_u_val = (uint32_t)strtol(data,&end_ptr,0);
+            if(*end_ptr == 0){
+                *((uint32_t *)cmd->val) = temp_u_val;
+                read_cmd(cmd,false);
+                invalid_write = false; 
+            }
+            break;
+        case TYPE_UINT8:
+            temp_u_val = (uint8_t)strtol(data,&end_ptr,0);
+            if(*end_ptr == 0){
+                *((uint8_t *)cmd->val) = temp_u_val;
+                read_cmd(cmd,false);
+                invalid_write = false; 
             }
             break;
         default:
